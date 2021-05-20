@@ -1,6 +1,11 @@
 /*
  * File:   newmain.c
- * Author: lucas
+ * Authors: 
+ * 
+ * Lucas Almeida  	 					        RA: 1996762
+ * Matheus Oliveira Pereira           RA: 1828339 
+ * Thiago Angelo Martins 					    RA: 1997513
+ * Vinicius Augusto de Souza 				  RA: 1997530
  *
  * Created on 20 de Abril de 2021, 14:47
  */
@@ -83,7 +88,7 @@
 #define _XTAL_FREQ 20000000 //20MHz
 #define vref 5000
 
-/*=============================| Leitura Analógica |=============================*/
+/*=============================| Leitura Analï¿½gica |=============================*/
 void ADC_Init()
 {
   ADCON0 = 0x81;               //Turn ON ADC and Clock Selection
@@ -110,15 +115,15 @@ int segundos_que_passaram = 1;
 int minutos_que_passaram = 0;
 int somatorio_de_tensoes = 0;
 
-int flag_primeira_vez = 1; // Variável que irá sinalizar se é a primeira vez que estão sendo lidas as potências
+int flag_primeira_vez = 1; // Variï¿½vel que irï¿½ sinalizar se ï¿½ a primeira vez que estï¿½o sendo lidas as potï¿½ncias
 
-float calculo_de_potencia = 0.0; // Variável que armazena a potência atual
+float calculo_de_potencia = 0.0; // Variï¿½vel que armazena a potï¿½ncia atual
 
-float vetor_de_potencias[60]; // Vetor que guardará a potência
+float vetor_de_potencias[60]; // Vetor que guardarï¿½ a potï¿½ncia
 
 
 
-// Interrupções do Timer
+// Interrupï¿½ï¿½es do Timer
 
 void __interrupt(high_priority) HighPriorityISR(void){
     INTCON3bits.INT1IF=0;
@@ -133,7 +138,7 @@ void __interrupt(low_priority) LowPriorityISR(void){
     TMR0H=0x67;
     TMR0L = 0x6A;
     
-    // Guarda a potência desse instante no array com base no instante
+    // Guarda a potï¿½ncia desse instante no array com base no instante
     vetor_de_potencias[segundos_que_passaram - 1] = calculo_de_potencia;
     
     segundos_que_passaram+=1;
@@ -149,7 +154,7 @@ void __interrupt(low_priority) LowPriorityISR(void){
 
 void main(void) {
     
-    /* =========| CONFIGURAÇÕES TIMER |========= */
+    /* =========| CONFIGURAï¿½ï¿½ES TIMER |========= */
     INTCON3bits.INT1IF=0;
     INTCON2bits.INTEDG1=0;
     INTCON3bits.INT1IP=1;
@@ -168,31 +173,31 @@ void main(void) {
 
     T0CON=0b10010110; 
      
-    // Inicializando posições do vetor de potências
+    // Inicializando posiï¿½ï¿½es do vetor de potï¿½ncias
     //for (int x = 0; x < 60; x++) {
     //    vetor_de_potencias[x] = 0.0;
     //}
     /* ========================================= */
     
     
-    /* ========| CONFIGURAÇÕES DO LCD |======== */
+    /* ========| CONFIGURAï¿½ï¿½ES DO LCD |======== */
     OpenXLCD(FOUR_BIT & LINES_5X7); // Modo 4 bits de dados e caracteres 5x7
     WriteCmdXLCD(0x01); // Limpa o LCD com retorno do cursor,
     WriteCmdXLCD(0x0c); // Sem cursor!!
-    __delay_ms(2); // Atraso de 2ms para aguardar a execução do comando
+    __delay_ms(2); // Atraso de 2ms para aguardar a execuï¿½ï¿½o do comando
 
-    WriteCmdXLCD(0x81); // Seleciona a posição Coluna 6 e Linha 1
+    WriteCmdXLCD(0x81); // Seleciona a posiï¿½ï¿½o Coluna 6 e Linha 1
     putrsXLCD ("Carregando..."); // Escreve a string ?valor?
     
     __delay_ms(1000);
     
     WriteCmdXLCD(0x01); // Limpa o LCD com retorno do cursor
-    __delay_ms(2); // Atraso de 2ms para aguardar a execução do comando
+    __delay_ms(2); // Atraso de 2ms para aguardar a execuï¿½ï¿½o do comando
     
     /* ======================================== */
     
     
-    /* ======| LEITURA ANALÓGICA E TELA |====== */
+    /* ======| LEITURA ANALï¿½GICA E TELA |====== */
     Inicializa_ADC();
     
     int horas_de_consumo_por_dia = 6;
@@ -213,8 +218,8 @@ void main(void) {
     float offsetVoltage = 2500;
     float sensitivity = 185;
     
-    TRISBbits.TRISB2=1; // Botão de decremento
-    TRISBbits.TRISB3=1; // Botão de incremento
+    TRISBbits.TRISB2=1; // Botï¿½o de decremento
+    TRISBbits.TRISB3=1; // Botï¿½o de incremento
     
     /* ======================================== */
     
@@ -239,10 +244,10 @@ void main(void) {
         /* ======================================= */
         
 
-        /* ======| POTÊNCIA NESSE INSTANTE |====== */
+        /* ======| POTï¿½NCIA NESSE INSTANTE |====== */
         calculo_de_potencia = (110 * current)/1000;
         
-        // Sanitizando dado da potência no instante para exibí-la adequadamente
+        // Sanitizando dado da potï¿½ncia no instante para exibï¿½-la adequadamente
         if (calculo_de_potencia < 0.0) {
             sprintf(currentWatts,"%.2f",0.0);   
         } else {
@@ -252,7 +257,7 @@ void main(void) {
         /* ======================================= */
         
         
-        /* ========| POTÊNCIA POR MINUTO |======== */
+        /* ========| POTï¿½NCIA POR MINUTO |======== */
         float potencia_por_minuto = 0.0;
         for (int y = 0; y<60;y++) {
             potencia_por_minuto += vetor_de_potencias[y];
@@ -266,7 +271,7 @@ void main(void) {
         /* ======================================= */
         
         
-        /* ========| PREÇO POR MINUTO E POR HORA |======== */
+        /* ========| PREï¿½O POR MINUTO E POR HORA |======== */
         float preco_em_reais = 0.0;
         preco_em_reais = potencia_por_minuto * (0.92/60.0);
         if (potencia_por_minuto < 0.0) {
@@ -284,8 +289,8 @@ void main(void) {
                     
         /* =======| COMPORTAMENTO DA TELA |======= */
         WriteCmdXLCD(0x01); // Limpa o LCD com retorno do cursor
-        __delay_ms(2); // Atraso de 2ms para aguardar a execução do comando
-        // Retorna à tela anterior
+        __delay_ms(2); // Atraso de 2ms para aguardar a execuï¿½ï¿½o do comando
+        // Retorna ï¿½ tela anterior
         
         if (!PORTBbits.RB2) {
             if (tela > 1) {
@@ -294,7 +299,7 @@ void main(void) {
             }
         }
         
-        // Avança para a tela seguinte
+        // Avanï¿½a para a tela seguinte
         if (!PORTBbits.RB3) {
             if (tela < 3) {
                 tela++;
