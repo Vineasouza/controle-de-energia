@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=controle-de-energia
+PROJECTNAME=LAB_5.X
 
 # Active Configuration
 DEFAULTCONF=default

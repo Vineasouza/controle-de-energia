@@ -3,16 +3,20 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>controle-de-energia</name>
-            <creation-uuid>7a33f6a1-f164-473b-91f0-455c31ffba9c</creation-uuid>
+            <name>LAB_5</name>
+            <creation-uuid>00895f90-2130-4716-9b32-11f65aa795f8</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
             <cpp-extensions/>
-            <header-extensions/>
+            <header-extensions>h</header-extensions>
             <asminc-extensions/>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
-            <sourceRootList/>
+            <sourceRootList>
+                <sourceRootElem>C:\Users\lucas\Desktop</sourceRootElem>
+                <sourceRootElem>E:\MPLAB\xc8\include</sourceRootElem>
+                <sourceRootElem>E:\MPLAB\xc8\sources\pic18\plib\Timers</sourceRootElem>
+            </sourceRootList>
             <confList>
                 <confElem>
                     <name>default</name>
