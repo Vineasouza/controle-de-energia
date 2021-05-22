@@ -3,9 +3,9 @@
  * Authors: 
  * 
  * Lucas Almeida  	 					        RA: 1996762
- * Matheus Oliveira Pereira           RA: 1828339 
+ * Matheus Oliveira Pereira                     RA: 1828339 
  * Thiago Angelo Martins 					    RA: 1997513
- * Vinicius Augusto de Souza 				  RA: 1997530
+ * Vinicius Augusto de Souza 				    RA: 1997530
  *
  * Created on 20 de Abril de 2021, 14:47
  */
@@ -88,7 +88,7 @@
 #define _XTAL_FREQ 20000000 //20MHz
 #define vref 5000
 
-/*=============================| Leitura Anal�gica |=============================*/
+/*=============================| Leitura Analagica |=============================*/
 void ADC_Init()
 {
   ADCON0 = 0x81;               //Turn ON ADC and Clock Selection
@@ -115,15 +115,15 @@ int segundos_que_passaram = 1;
 int minutos_que_passaram = 0;
 int somatorio_de_tensoes = 0;
 
-int flag_primeira_vez = 1; // Vari�vel que ir� sinalizar se � a primeira vez que est�o sendo lidas as pot�ncias
+int flag_primeira_vez = 1; // Variavel que ira sinalizar se e a primeira vez que estao sendo lidas as potencias
 
-float calculo_de_potencia = 0.0; // Vari�vel que armazena a pot�ncia atual
+float calculo_de_potencia = 0.0; // Variavel que armazena a potencia atual
 
-float vetor_de_potencias[60]; // Vetor que guardar� a pot�ncia
+float vetor_de_potencias[60]; // Vetor que guardara a potencia
 
 
 
-// Interrup��es do Timer
+// Interrupcoes do Timer
 
 void __interrupt(high_priority) HighPriorityISR(void){
     INTCON3bits.INT1IF=0;
@@ -154,7 +154,7 @@ void __interrupt(low_priority) LowPriorityISR(void){
 
 void main(void) {
     
-    /* =========| CONFIGURA��ES TIMER |========= */
+    /* =========| CONFIGURACOES TIMER |========= */
     INTCON3bits.INT1IF=0;
     INTCON2bits.INTEDG1=0;
     INTCON3bits.INT1IP=1;
@@ -173,7 +173,7 @@ void main(void) {
 
     T0CON=0b10010110; 
      
-    // Inicializando posi��es do vetor de pot�ncias
+    // Inicializando posioees do vetor de potencias
     //for (int x = 0; x < 60; x++) {
     //    vetor_de_potencias[x] = 0.0;
     //}
@@ -184,20 +184,20 @@ void main(void) {
     OpenXLCD(FOUR_BIT & LINES_5X7); // Modo 4 bits de dados e caracteres 5x7
     WriteCmdXLCD(0x01); // Limpa o LCD com retorno do cursor,
     WriteCmdXLCD(0x0c); // Sem cursor!!
-    __delay_ms(2); // Atraso de 2ms para aguardar a execu��o do comando
+    __delay_ms(2); // Atraso de 2ms para aguardar a execao do comando
 
-    WriteCmdXLCD(0x81); // Seleciona a posi��o Coluna 6 e Linha 1
+    WriteCmdXLCD(0x81); // Seleciona a posicao Coluna 6 e Linha 1
     putrsXLCD ("Carregando..."); // Escreve a string ?valor?
     
     __delay_ms(1000);
     
     WriteCmdXLCD(0x01); // Limpa o LCD com retorno do cursor
-    __delay_ms(2); // Atraso de 2ms para aguardar a execu��o do comando
+    __delay_ms(2); // Atraso de 2ms para aguardar a execucao do comando
     
     /* ======================================== */
     
     
-    /* ======| LEITURA ANAL�GICA E TELA |====== */
+    /* ======| LEITURA ANALOGICA E TELA |====== */
     Inicializa_ADC();
     
     int horas_de_consumo_por_dia = 6;
@@ -218,8 +218,8 @@ void main(void) {
     float offsetVoltage = 2500;
     float sensitivity = 185;
     
-    TRISBbits.TRISB2=1; // Bot�o de decremento
-    TRISBbits.TRISB3=1; // Bot�o de incremento
+    TRISBbits.TRISB2=1; // Botao de decremento
+    TRISBbits.TRISB3=1; // Botao de incremento
     
     /* ======================================== */
     
@@ -244,10 +244,10 @@ void main(void) {
         /* ======================================= */
         
 
-        /* ======| POT�NCIA NESSE INSTANTE |====== */
+        /* ======| POTENCIA NESSE INSTANTE |====== */
         calculo_de_potencia = (110 * current)/1000;
         
-        // Sanitizando dado da pot�ncia no instante para exib�-la adequadamente
+        // Sanitizando dado da potencia no instante para exibi-la adequadamente
         if (calculo_de_potencia < 0.0) {
             sprintf(currentWatts,"%.2f",0.0);   
         } else {
@@ -257,7 +257,7 @@ void main(void) {
         /* ======================================= */
         
         
-        /* ========| POT�NCIA POR MINUTO |======== */
+        /* ========| POTENCIA POR MINUTO |======== */
         float potencia_por_minuto = 0.0;
         for (int y = 0; y<60;y++) {
             potencia_por_minuto += vetor_de_potencias[y];
@@ -271,7 +271,7 @@ void main(void) {
         /* ======================================= */
         
         
-        /* ========| PRE�O POR MINUTO E POR HORA |======== */
+        /* ========| PRECO POR MINUTO E POR HORA |======== */
         float preco_em_reais = 0.0;
         preco_em_reais = potencia_por_minuto * (0.92/60.0);
         if (potencia_por_minuto < 0.0) {
@@ -289,8 +289,8 @@ void main(void) {
                     
         /* =======| COMPORTAMENTO DA TELA |======= */
         WriteCmdXLCD(0x01); // Limpa o LCD com retorno do cursor
-        __delay_ms(2); // Atraso de 2ms para aguardar a execu��o do comando
-        // Retorna � tela anterior
+        __delay_ms(2); // Atraso de 2ms para aguardar a execucao do comando
+        // Retorna a tela anterior
         
         if (!PORTBbits.RB2) {
             if (tela > 1) {
@@ -299,7 +299,7 @@ void main(void) {
             }
         }
         
-        // Avan�a para a tela seguinte
+        // Avanca para a tela seguinte
         if (!PORTBbits.RB3) {
             if (tela < 3) {
                 tela++;
